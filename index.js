@@ -1,13 +1,31 @@
-const express = require('express');
-const PORT = 8080;
-
-const app = express();
-
-app.get('/', (req, res) => {
-  res.send("hello world");
+const { Server } = require('ws');
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 8080 },()=>{
+    console.log('server started')
 })
 
+wss.on('connection', function connection(ws) {
+    console.log('connection');
+    ws.on('message', function incoming(data, isBinary) {
+        console.log(data.toString(),isBinary);
+        wss.clients.forEach(function each(client) {
+          if (client !== ws && client.readyState === WebSocket.OPEN) {
+              console.log(data,isBinary);
+            client.send("true");
+          }
+        });
+      });
+})
 
-app.listen(PORT, ()=>{
-  console.log('listening on port 8080');
+// var socket = socketClient ("https://socketforunity.herokuapp.com/");
+//  socket.emit("connection",(res)=>{
+//      console.log(res);
+//  })
+
+// socket.on('connect', function(){
+//     console.log("connected")
+// });
+
+wss.on('listening',()=>{
+   console.log('listening on 8080')
 })
