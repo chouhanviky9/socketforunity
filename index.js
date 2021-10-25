@@ -7,6 +7,9 @@ const wss = new WebSocket.Server({ port: Port },()=>{
 
 wss.on('connection', function connection(ws) {
     console.log('connection');
+    setInterval(()=>{
+      ws.send("live");
+    },20000);
     ws.on('message', function incoming(data, isBinary) {
         console.log(data.toString(),isBinary);
         wss.clients.forEach(function each(client) {
