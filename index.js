@@ -1,20 +1,14 @@
-const WebSocket = require('ws')
-const wss = new WebSocket.Server({ port: 8080 },()=>{
-    console.log('server started')
-})
-wss.on('connection', function connection(ws) {
-    console.log('connection');
-    ws.on('message', function incoming(data, isBinary) {
-        console.log(data.toString(),isBinary);
-        wss.clients.forEach(function each(client) {
-          if (client !== ws && client.readyState === WebSocket.OPEN) {
-              console.log(data,isBinary);
-            client.send("true");
-         
-          }
-        });
-      });
-})
-wss.on('listening',()=>{
-   console.log('listening on 8080')
-})
+const express = require('express');
+const PORT = process.env.PORT || 8080;
+
+const server = express()
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+  const { Server } = require('ws');
+
+const wss = new Server({ server });
+
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  ws.on('close', () => console.log('Client disconnected'));
+});
