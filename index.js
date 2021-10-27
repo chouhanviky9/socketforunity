@@ -4,8 +4,10 @@ const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: Port },()=>{
     console.log('server started on '+Port);
 })
+let num=1;
 
 wss.on('connection', function connection(ws) {
+    ws.id = num++;
     console.log('connection');
     setInterval(()=>{
       ws.send("live");
