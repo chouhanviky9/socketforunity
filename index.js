@@ -5,7 +5,7 @@ const wss = new WebSocket.Server({ port: Port },()=>{
     console.log('server started on '+Port);
 })
 let num=1;
-
+const rooms = {};
 wss.on('connection', function connection(ws) {
     ws.id = num++;
     console.log('connection');
@@ -16,6 +16,9 @@ wss.on('connection', function connection(ws) {
         console.log(data.toString(),isBinary);
         wss.clients.forEach(function each(client) {
             console.log(client.id);
+            if(client.id==2){
+                client.send("false"
+                            }
 //           if (client !== ws && client.readyState === WebSocket.OPEN) {
               console.log(data.toString(),isBinary);
             client.send("true");
