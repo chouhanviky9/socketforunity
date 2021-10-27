@@ -21,7 +21,10 @@ wss.on('connection', function connection(ws) {
                             }
 //           if (client !== ws && client.readyState === WebSocket.OPEN) {
               console.log(data.toString(),isBinary);
-            client.send("true");
+                 if(client.id==2){
+                client.send("true");
+                            }
+            
 //           }
         });
       });
